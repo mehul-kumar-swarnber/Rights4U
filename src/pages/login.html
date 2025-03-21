@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign-In</title>
+    <link rel="shortcut icon" href="../assets/images/img3.jpg" type="image/x-icon">
+    <!-- <link rel="stylesheet" href="SignInhtml.css"> -->
+    <!-- <link rel="stylesheet" href="src/output.css"> -->
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-image: url('../assets/images/img10.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        .supercontainer {
+            display: flex;
+            height: 100vh;
+            /* background-image: url("WhatsApp\ Image\ 2024-08-29\ at\ 18.36.14_14c7f57c.jpg"); */
+            /* align-content: center; */
+            justify-content: center;
+            align-items: center;
+            /* background-size: cover; */
+        }
+
+        .supercontainer>.container {
+            height: 500px;
+            width: 1300px;
+            border-radius: 20px;
+            background-color: rgb(203, 203, 203);
+            display: grid;
+            grid-template-areas: "first second"
+                "third second";
+            align-items: center;
+            justify-items: center;
+            opacity: 0.9;
+        }
+
+        .supercontainer>.container>.imgr>img {
+            width: 300px;
+            padding: 0;
+            margin: 0;
+            opacity: 1;
+
+            /* animation: name duration timing-function delay iteration-count direction fill-mode; */
+        }
+
+        @keyframes animation1 {
+            from {}
+
+            to {
+                filter: saturate(5) grayscale(1);
+                transform: translateX(10px);
+            }
+        }
+
+        @keyframes increaseSize {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.4);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .supercontainer>.container>.imgr {
+            grid-area: first;
+        }
+
+        .supercontainer>.container>.icons {
+            grid-area: third;
+            justify-self: flex-start;
+            padding-left: 40px;
+        }
+
+        .supercontainer>.container>.icons {
+            display: flex;
+            padding-inline: 15px;
+        }
+
+        .supercontainer>.container>.icons>.icon>a>img {
+            width: 50px;
+            padding-inline: 5px;
+            opacity: 0.5;
+        }
+
+        .supercontainer>.container>.icons>.icon>a>img:hover {
+            opacity: 1;
+        }
+
+        .supercontainer>.container>.signinbox {
+            grid-area: second;
+            align-self: center;
+            opacity: 1;
+        }
+
+        .supercontainer>.container>.signinbox>.inbox {
+            width: 300px;
+            height: 200px;
+            background-color: rgb(255, 255, 255);
+            /* background: linear-gradient(to right, #ec4899, #a855f7); */
+            align-self: center;
+            border-radius: 10px;
+        }
+
+        .supercontainer>.container>.signinbox>.subContainer>button {
+            background-color: rgb(0, 0, 0);
+            border-radius: 14px;
+            margin: 10px 30px 10px 30px;
+            font-size: 10px;
+            cursor: pointer;
+            color: rgb(201, 199, 199);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+            /* Unified padding for better click area */
+            opacity: 1;
+        }
+
+        .supercontainer>.container>.signinbox>.subContainer>button:hover {
+            color: rgb(255, 255, 255);
+        }
+
+        .supercontainer>.container>.signinbox>.bottom>h6 {
+            display: flex;
+            justify-content: center;
+        }
+
+        /* Link in Bottom Section */
+        .supercontainer>.container>.signinbox>.bottom>h6>a {
+            color: rgb(64, 139, 204);
+            font-weight: lighter;
+            text-decoration: underline;
+            /* Assuming it was meant to be uncommented */
+            font-size: 14px;
+        }
+
+        .supercontainer>.container>.signinbox>.bottom>h6>a:hover {
+            color: rgb(11, 97, 227);
+        }
+
+        .supercontainer>.container>.signinbox>.bottom>h6 {
+            color: rgb(151, 145, 145);
+            font-weight: lighter;
+            text-decoration: none;
+            /* Assuming it was meant to be uncommented */
+            font-size: 14px;
+        }
+
+        .supercontainer>.container>.signinbox {
+            background-color: rgb(255, 255, 255);
+            padding: 30px;
+            border-radius: 15px;
+            opacity: 1;
+        }
+
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            opacity: 1;
+            margin-top: 20px;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+            font-size: 16.5px;
+        }
+
+        form {
+            max-width: 400px;
+            margin: auto;
+            padding: 13px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            background-color: #f9f9f9;
+        }
+
+        .supercontainer>.container>.signinbox {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            /* justify-content: center; */
+        }
+
+        .supercontainer>.container>.signinbox>h2 {
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            margin: 0;
+            /* padding-left: 20px; */
+            padding-bottom: 5px;
+            align-self: center;
+        }
+
+        /* Form inside Container */
+        .supercontainer>.container>.signinbox>.inbox>.form1 {
+            display: flex;
+            justify-content: center;
+            padding: 10px;
+        }
+
+        /* Post Section */
+        .supercontainer>.container>.signinbox>.inbox>.post {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .supercontainer>.container>.signinbox>.subContainer>.google-signin>svg {
+            height: 10px;
+        }
+
+        .supercontainer>.container>.signinbox>.subContainer>.facebook-signin>img {
+            height: 12px;
+        }
+
+        input[type="text"],
+        input[type="password"],
+        textarea {
+            width: 90%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .supercontainer>.container>.signinbox>.subContainer {
+            display: flex;
+            flex-direction: column;
+            padding-top: 15px;
+        }
+
+        .supercontainer>.container>.signinbox>.subContainer>button {
+            padding: 0px;
+            padding-inline: 20px;
+            padding-top: 5px;
+            padding-bottom: 5px;
+            margin: 3px;
+            font-size: 14px;
+            border: none;
+        }
+
+        .supercontainer>.container>.signinbox>.bottom {
+            padding-top: 30px;
+        }
+
+        .form1 {
+            opacity: 1;
+            background-color: white;
+        }
+
+        .inbox {
+            opacity: 1;
+        }
+
+        .signin-btn {
+            display: inline-block;
+            background-color: #28a745;
+            /* Green color */
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            font-size: 16px;
+            border-radius: 5px;
+            margin-left: 47px;
+            margin-top: 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        .signin-btn:hover {
+            background-color: #218838;
+            /* Darker green on hover */
+        }
+
+        /* Issue: Opacity values range from 0 (completely transparent) to 1 (fully opaque). A value of 2 is invalid.
+Solution: Adjust the opacity to a value within the valid range. */
+    </style>
+
+</head>
+
+<body>
+    <div class="supercontainer">
+        <div class="container">
+            <div class="imgr">
+                <img src="../assets/images/img3-removebg-preview.png" alt="">
+            </div>
+            <div class="icons">
+                <div class="icon1 icon">
+                    <a href="https://www.facebook.com/" target="_blank"><img src="../assets/images/OIP-removebg-preview.webp"
+                            alt="1"></a>
+                </div>
+                <div class="icon2 icon">
+                    <a href="https://x.com/?lang=en-in" target="_blank"><img
+                            src="../assets/images/twitter-brand-new-logo-3-d-with-new-x-shaped-graphic-of-the-world-s-most-popular-social-media-free-png-removebg-preview.webp"
+                            alt="2"></a>
+                </div>
+                <div class="icon3 icon">
+                    <a href="https://www.instagram.com/" target="_blank"><img src="../assets/images/R__7_-removebg-preview.webp"
+                            alt="3"></a>
+                </div>
+            </div>
+            <div class="signinbox">
+                <h2>User Sign-in</h2>
+                <div class="inbox ">
+                    <div class="form1">
+                        <form action="/post" method="post"> <!-- Added correct method and action attributes -->
+                            <div class="user">
+                                <label for="username"></label> <!-- Added label text for accessibility -->
+                                <input type="text" id="username" name="username" placeholder="Enter your username"
+                                    autofocus required> <!-- Added 'required' attribute for form validation -->
+                            </div>
+                            <div class="pass">
+                                <label for="password"></label> <!-- Added label text for accessibility -->
+                                <input type="password" id="password" name="password" placeholder="Enter your password"
+                                    required> <!-- Changed input type to 'password' for security -->
+                            </div>
+
+                            <div class="submit">
+                                <a href="index.html" class="signin-btn">Sign In</a>
+                            </div>
+
+                            <!-- <div class="submit">
+                                <input type="submit" value="Sign In"> 
+                            </div> -->
+                        </form>
+                    </div>
+                </div>
+                <div class="subContainer">
+                    <button type="button" class="google-signin">
+                        Sign In with Google&nbsp;&nbsp;
+
+                        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" class="LgbsSe-Bz112c">
+                            <g>
+                                <path fill="#EA4335"
+                                    d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z">
+                                </path>
+                                <path fill="#4285F4"
+                                    d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z">
+                                </path>
+                                <path fill="#FBBC05"
+                                    d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z">
+                                </path>
+                                <path fill="#34A853"
+                                    d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z">
+                                </path>
+                                <path fill="none" d="M0 0h48v48H0z"></path>
+                            </g>
+                        </svg>
+                    </button>
+                    <button type="button" class="facebook-signin">
+                        Sign In with Facebook&nbsp;&nbsp;
+                        <img src="../assets/images/facebook-logo-clipart-png-format-removebg-preview.webp" alt="Facebook logo">
+                    </button>
+                </div>
+                <div class="bottom">
+                    <h6>Don't have an account?&nbsp;<a href="/"> Sign Up </a>&nbsp;Now</h6>
+                    <!-- Corrected grammar and readability -->
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

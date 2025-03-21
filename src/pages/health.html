@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Child Health Rights Quiz</title>
+    <link rel="shortcut icon" href="../assets/images/img3.jpg" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            text-align: center;
+            background-image: url('../assets/images/img8.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            position: relative;
+            overflow: hidden;
+        }
+
+        body::before {
+            content: "";
+            position: relative;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: -1;
+        }
+
+        .container {
+            width: 80%;
+            max-width: 600px;
+            margin: 50px auto;
+            background: #fff;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #ff6702;
+            margin-bottom: 20px;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        .question {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: #333;
+            animation: slideIn 1s ease-out;
+        }
+
+        .options button {
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            animation: slideIn 1s ease-out;
+            background: linear-gradient(45deg, #FF7F50, #1E90FF);
+            color: white;
+        }
+
+        .options button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .options button:active {
+            transform: translateY(1px);
+            box-shadow: none;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideIn {
+            0% {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+
+            100% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            .container {
+                width: 90%;
+                padding: 15px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .question {
+                font-size: 1rem;
+            }
+
+            .options button {
+                font-size: 1rem;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>Child Health Rights Quiz</h1>
+        <div class="question" id="question"></div>
+        <div class="options" id="options"></div>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        // Array of questions about Health Rights
+        const questions = [
+            {
+                question: "What is the right of every child regarding health care?",
+                options: ["To receive free health care", "To choose their health care provider", "To only visit government hospitals"],
+                correctAnswer: 0,
+                explanation: "Correct! Every child has the right to receive free and accessible health care.",
+                audio:"../assets/audio/health1.mp3"
+            },
+            {
+                question: "Is it a child's right to receive vaccinations?",
+                options: ["Yes", "No", "It depends on the country"],
+                correctAnswer: 0,
+                explanation: "Correct! Every child has the right to receive vaccines for prevention of diseases.",
+                audio:"../assets/audio/health2.mp3"
+            },
+            {
+                question: "Should children have access to mental health services?",
+                options: ["Yes", "No", "Only in emergencies"],
+                correctAnswer: 0,
+                explanation: "Correct! Children have the right to mental health services to support their overall well-being.",
+                audio:"../assets/audio/health3.mp3"
+            },
+            {
+                question: "If a child is sick, do they have the right to medical attention?",
+                options: ["Yes", "No", "Only if they have insurance"],
+                correctAnswer: 0,
+                explanation: "Correct! All children have the right to receive medical attention when needed.",
+                audio:"../assets/audio/health4.mp3"
+            },
+            {
+                question: "Is it a child's right to have access to clean drinking water?",
+                options: ["Yes", "No", "It depends on the country"],
+                correctAnswer: 0,
+                explanation: "Correct! Every child has the right to access clean drinking water.",
+                audio:"../assets/audio/health5.mp3"
+            },
+            {
+                question: "Do children have the right to adequate nutrition?",
+                options: ["No", "Yes, to prevent malnutrition", "Yes, but only in rich countries"],
+                correctAnswer: 1,
+                explanation: "Correct! Children have the right to adequate nutrition to ensure their health and development.",
+                audio:"../assets/audio/health6.mp3"
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+
+        function displayQuestion() {
+            const question = questions[currentQuestionIndex];
+            document.getElementById('question').textContent = question.question;
+
+            const optionsDiv = document.getElementById('options');
+            optionsDiv.innerHTML = '';
+
+            question.options.forEach((option, index) => {
+                const button = document.createElement('button');
+                button.textContent = option;
+                button.onclick = () => checkAnswer(index);
+                optionsDiv.appendChild(button);
+            });
+        }
+
+        function checkAnswer(selectedOptionIndex) {
+            const question = questions[currentQuestionIndex];
+            const result = document.getElementById('result');
+
+            if (selectedOptionIndex === question.correctAnswer) {
+                result.textContent = question.explanation;
+                result.style.color = '#28a745';
+
+                // Play the corresponding audio
+                const audio = new Audio(question.audio);
+                audio.play();
+
+                // Proceed to next question after 3 seconds
+                setTimeout(() => {
+                    currentQuestionIndex++;
+                    if (currentQuestionIndex < questions.length) {
+                        displayQuestion();
+                        result.textContent = '';  // Reset result message
+                    } else {
+                        result.textContent = 'Congratulations! You have completed the quiz.';
+                        result.style.color = '#007bff';
+                    }
+                }, 5000);
+            } else {
+                result.textContent = "Oops! That is not safe. Try again.";
+                result.style.color = '#dc3545';
+            }
+        }
+        // Initial call to display the first question
+        displayQuestion();
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frequently Asked Questions - Rights</title>
+    <link rel="shortcut icon" href="../assets/images/img3.jpg" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+
+        header {
+            background: linear-gradient(45deg, #ff7eb3, #9b59b6);
+            color: white;
+            padding: 20px 0;
+        }
+
+        header h1 {
+            margin: 0;
+        }
+
+        .faq-container {
+            width: 80%;
+            max-width: 1000px;
+            margin: 30px auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: #9b59b6;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+        }
+
+        .faq-section {
+            margin-bottom: 30px;
+        }
+
+        .question {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .question:hover {
+            color: #ff7eb3;
+        }
+
+        .answer {
+            font-size: 1rem;
+            color: #555;
+            display: none;
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>Frequently Asked Questions (FAQ)</h1>
+        <p>Learn about Safety Rights, Education Rights, and Health Rights</p>
+    </header>
+
+    <div class="faq-container">
+        <!-- Safety Rights Section -->
+        <div class="faq-section" id="safety-rights">
+            <h2>Safety Rights</h2>
+            <div class="faq-item">
+                <div class="question" onclick="toggleAnswer(this)">
+                    What should you do if a stranger tries to talk to you?
+                </div>
+                <div class="answer">
+                    You should stay away from the stranger and find a trusted adult or a safe place.
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="question" onclick="toggleAnswer(this)">
+                    What can you do if you feel unsafe at school?
+                </div>
+                <div class="answer">
+                    You should report it to a teacher, counselor, or another trusted adult at school.
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="question" onclick="toggleAnswer(this)">
+                    How can you protect your privacy online?
+                </div>
+                <div class="answer">
+                    You should avoid sharing personal information online and only communicate with trusted people.
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="question" onclick="toggleAnswer(this)">
+                    What should you do if someone is bullying you?
+                </div>
+                <div class="answer">
+                    You should immediately tell a teacher, counselor, or trusted adult to stop the bullying.
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="question" onclick="toggleAnswer(this)">
+                    Is it okay to open the door for strangers at home?
+                </div>
+                <div class="answer">
+                    No, it is important to ask who it is before opening the door and only let trusted people in.
+                </div>
+            </div>
+        </div>
+
+        <!-- Education Rights Section -->
+        <div class="faq-section" id="education-rights">
+            <h2>Education Rights</h2>
+            <div class="faq-item">
+                <div class="question" onclick="toggleAnswer(this)">
+                    What is the right of every child in terms of education?
+                </div>
+                <div class="answer">
+                    Every child has the right to free and compulsory education up to a certain age.
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="question" onclick="toggleAnswer(this)">
+                    At what age should a child start going to school?
+                </div>
+                <div class="answer">
+                    Children should start attending school around the age of 6.
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="question" onclick="toggleAnswer(this)">
+                    Can education be denied to a child?
+                </div>
+                <div class="answer">
+                    No, it is illegal to deny a child their right to education in many countries.
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="question" onclick="toggleAnswer(this)">
+                    What should a child do if they can't afford education materials?
+                </div>
+                <div class="answer">
+                    A child should ask for help from school authorities or apply for educational assistance programs.
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="question" onclick="toggleAnswer(this)">
+                    Do children have the right to study in their mother tongue?
+                </div>
+                <div class="answer">
+                    Yes, children have the right to access education in their native language or mother tongue.
+                </div>
+            </div>
+        </div>
+
+        <!-- Health Rights Section -->
+        <div class="faq-section" id="health-rights">
+            <h2>Health Rights</h2>
+            <div class="faq-item">
+                <div class="question" onclick="toggleAnswer(this)">
+                    What is the right of a child regarding health care?
+                </div>
+                <div class="answer">
+                    Every child has the right to access health care services, including vaccination, treatment, and preventive care.
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="question" onclick="toggleAnswer(this)">
+                    How should children be protected from harmful substances?
+                </div>
+                <div class="answer">
+                    Children should be protected from harmful chemicals and substances through regulations and awareness campaigns.
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="question" onclick="toggleAnswer(this)">
+                    What should a parent do if their child needs medical attention but can't afford it?
+                </div>
+                <div class="answer">
+                    They should contact social services or healthcare assistance programs that can provide support.
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="question" onclick="toggleAnswer(this)">
+                    Is it necessary for children to have regular check-ups?
+                </div>
+                <div class="answer">
+                    Yes, regular health check-ups are important to monitor a child's growth and development.
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="question" onclick="toggleAnswer(this)">
+                    Can children refuse medical treatment?
+                </div>
+                <div class="answer">
+                    In many cases, children may have the right to refuse certain medical treatments, depending on their age and the laws in their country.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Rights Awareness Organization. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        function toggleAnswer(element) {
+            const answer = element.nextElementSibling;
+            const allAnswers = document.querySelectorAll('.faq-item .answer');
+
+            // Close all answers
+            allAnswers.forEach(ans => {
+                if (ans !== answer) {
+                    ans.style.display = 'none';
+                }
+            });
+
+            // Toggle the clicked answer
+            answer.style.display = (answer.style.display === 'block') ? 'none' : 'block';
+        }
+    </script>
+
+</body>
+
+</html>
