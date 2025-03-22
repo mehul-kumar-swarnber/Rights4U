@@ -126,6 +126,7 @@
             <p class="text-center text-sm">© 2024 Kids Rights Games. All rights reserved.</p>
         </div>
     </footer>
+    <script src="../js/annyang.min.js"></script>
 
     <!-- Smooth Scroll Script -->
     <script>
@@ -146,9 +147,52 @@
 
             // window.speechSynthesis.speak(speech);
         }
-        
+        // voice commands
+        if (annyang) {
+            // Define commands
+            var commands = {
+
+                'Education.': function () {
+                    // open education.html
+                    window.location.assign('education.html'); // Adds to history
+
+                    // window.location.href = 'education.html'; // Redirect to education.html
+                },
+                
+                'Safety.': function () {
+                    // open education.html
+                    window.location.assign('safety.html'); // Adds to history
+
+                    // window.location.href = 'education.html'; // Redirect to education.html
+                },
+
+                'Health.': function () {
+                    // open education.html
+                    window.location.assign('health.html'); // Adds to history
+
+                    // window.location.href = 'education.html'; // Redirect to education.html
+                }
+
+            };
+
+            // Add commands
+            annyang.addCommands(commands);
+
+            // Start listening
+            annyang.start();
+
+            // Debugging
+            annyang.addCallback('result', function (phrases) {
+                console.log("Recognized phrases: ", phrases);
+            });
+
+            console.log("Annyang is listening...");
+        } else {
+            console.log("Annyang is not supported on this browser.");
+        }
 
     </script>
+
     <script src="main.js"></script>
 </body>
 
