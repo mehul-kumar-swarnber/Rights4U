@@ -137,59 +137,81 @@
             speakInstructions();
         };
 
-        function speakInstructions() {
-            const instructions = "Welcome to Rights for you! Here’s how to play: you have got three sections; education rights, safety rights, and health rights. Click on any section to begin the game. ";
+        function speakInstructions(instructionReceived) {
+            return new Promise((resolve, reject) => {
+                const instructions = instructionReceived;
 
-            const speech = new SpeechSynthesisUtterance(instructions);
-            speech.lang = "en-US"; // Set language
-            speech.rate = 1; // Speed of speech (1 is normal)
-            speech.pitch = 1; // Pitch of voice
+                const speech = new SpeechSynthesisUtterance(instructions);
+                speech.lang = "en-GB"; // More natural and clear English accent
+                speech.rate = 1; // Slightly slower for clarity and smoothness
+                speech.pitch = 1.2; // Balanced pitch (not too robotic)
+                // what happens when the audio ends
 
-            // window.speechSynthesis.speak(speech);
-        }
-        // voice commands
-        if (annyang) {
-            // Define commands
-            var commands = {
+                speech.onend = resolve; // Resolve the promise when speech ends
+                // Get the best available voice
+                const voices = window.speechSynthesis.getVoices();
+                const preferredVoice = voices.find(voice => voice.name.includes("Google UK English Female")); // Soothing female voice
 
-                'Education.': function () {
-                    // open education.html
-                    window.location.assign('education.html'); // Adds to history
-
-                    // window.location.href = 'education.html'; // Redirect to education.html
-                },
-                
-                'Safety.': function () {
-                    // open education.html
-                    window.location.assign('safety.html'); // Adds to history
-
-                    // window.location.href = 'education.html'; // Redirect to education.html
-                },
-
-                'Health.': function () {
-                    // open education.html
-                    window.location.assign('health.html'); // Adds to history
-
-                    // window.location.href = 'education.html'; // Redirect to education.html
+                if (preferredVoice) {
+                    speech.voice = preferredVoice;
                 }
 
-            };
-
-            // Add commands
-            annyang.addCommands(commands);
-
-            // Start listening
-            annyang.start();
-
-            // Debugging
-            annyang.addCallback('result', function (phrases) {
-                console.log("Recognized phrases: ", phrases);
+                window.speechSynthesis.speak(speech);
             });
-
-            console.log("Annyang is listening...");
-        } else {
-            console.log("Annyang is not supported on this browser.");
+        };
+        async function dictateInstructions() {
+            await speakInstructions("Welcome to Rights for you! Here’s how to play: you have got three sections; education rights, safety rights, and health rights. Click on any section to begin the game. ")
+            await speakInstructions("You can navigate this website using voice commands. Would you like to enable voice navigation? Say 'Yes' or 'No'.");
+            // await listenForResponse();
+            listenForResponse(); // No need to `await`, since Annyang listens continuously
         }
+        dictateInstructions();
+        // voice commands
+        function listenForResponse() {
+            if (annyang) {
+                // Define commands
+                var commands = {
+
+                  
+                    "Yes.": function () {
+                        speakInstructions("Voice navigation enabled. You can say 'Education' or 'Safety' or 'Health' . Say  'home' to return to home page");
+                        enableVoiceNavigation();
+                    },
+                    "No.": function () {
+                        speakInstructions("Alright! Feel free to explore normally.");
+                        annyang.abort();
+                    },
+                    "Education.": function(){
+                        window.location.href = "education.html";
+                    },
+                    "Safety.": function(){
+                        window.location.href = "safety.html";
+                    },
+                    "Health.": function(){
+                        window.location.href = "health.html";
+                    },
+                    "Home." : function(){
+                        window.location.href="index.html";
+                    }
+                };
+
+                // Add commands
+                annyang.addCommands(commands);
+
+                // Start listening
+                annyang.start();
+
+                // Debugging
+                annyang.addCallback('result', function (phrases) {
+                    console.log("Recognized phrases: ", phrases);
+                });
+
+                console.log("Annyang is listening...");
+            } else {
+                console.log("Annyang is not supported on this browser.");
+            }
+        }
+        
 
     </script>
 

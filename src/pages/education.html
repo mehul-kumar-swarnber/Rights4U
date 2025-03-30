@@ -222,7 +222,7 @@
 
         // The below function is for populating the div question and div option with question and its options
         function displayQuestion() {
-            
+
             const questionobj = questions[currentQuestionIndex]; // this will fetch the objects from the questions array as per index
             // DOM is used below
             document.getElementById('question').textContent = questionobj.question;
@@ -234,25 +234,30 @@
 
             // CORRECT APPROACH 
             const audioQuestion = new Audio(questionobj.questionDictation);
-            audioQuestion.play();
+            async function playDictations() {
+                await speakInstructionsQuestion(questionobj.question);
+                await speakInstructionsOptions(questionobj.options)
+            }
+            playDictations()
 
 
-            
+
             const optionsDiv = document.getElementById('options');
             optionsDiv.innerHTML = ''; //empty string
 
             questionobj.options.forEach((option, index) => {
                 const button = document.createElement('button'); // we created an empty button
                 button.textContent = option; // we added options to our empty created buttons
-                button.onclick = () => {checkAnswer(index); audioQuestion.pause();};
+                button.onclick = () => { checkAnswer(index);  window.speechSynthesis.cancel();}; // This stops any ongoing speech synthesis
                 optionsDiv.appendChild(button); // here we are appending our created buttons into the options container
             });
+
         }
 
         function checkAnswer(selectedOptionIndex) {
             const questionobj = questions[currentQuestionIndex];
             const result = document.getElementById('result'); // fetches the result container
-           
+
             if (selectedOptionIndex === questionobj.correctAnswer) {
                 result.textContent = questionobj.explanation; // adding the explanation of the answer in the result div
                 result.style.color = '#28a745'; // green color text for explanation after correct answer
@@ -262,7 +267,7 @@
                 // Play the corresponding audio
                 const audio = new Audio(questionobj.audio); // loads the audio from the questionobj into the audio with the help of new Audio function
                 audio.play(); // Plays the audio
-                
+
 
                 // Proceed to next question after 5 seconds
                 setTimeout(() => {
@@ -286,13 +291,73 @@
         // Initial call to display the first question
         displayQuestion();
 
-        var character = lottie.loadAnimation({
-            container: document.getElementById('character-animation'),
-            renderer: 'svg',
-            loop: true,
-            autoplay: true,
-            path: '../assets/illustrations/Main Scene.json'
-        });
+        // var character = lottie.loadAnimation({
+        //     container: document.getElementById('character-animation'),
+        //     renderer: 'svg',
+        //     loop: true,
+        //     autoplay: true,
+        //     path: '../assets/illustrations/Main Scene.json'
+        // });
+
+
+
+
+        // Voice for questions
+        function speakInstructionsQuestion(questionReceived) {
+            return new Promise((resolve, reject) => {
+                    const instructions = questionReceived;
+
+                    const speech = new SpeechSynthesisUtterance(instructions);
+                    speech.lang = "en-GB"; // More natural and clear English accent
+                    speech.rate = 1; // Slightly slower for clarity and smoothness
+                    speech.pitch = 1.2; // Balanced pitch (not too robotic)
+                    // what happens when the audio ends
+
+                    speech.onend = resolve; // Resolve the promise when speech ends
+                    // Get the best available voice
+                    const voices = window.speechSynthesis.getVoices();
+                    const preferredVoice = voices.find(voice => voice.name.includes("Google UK English Female")); // Soothing female voice
+
+                    if (preferredVoice) {
+                        speech.voice = preferredVoice;
+                    }
+
+                    window.speechSynthesis.speak(speech);
+
+                });
+            };
+
+            // Voice for options : 
+            function speakInstructionsOptions(arrayReceived) {
+                return new Promise((resolve, reject) => {
+                    arrayReceived.forEach(element => {
+                        const instructions = element;
+
+                        const speech = new SpeechSynthesisUtterance(instructions);
+                        speech.lang = "en-GB"; // More natural and clear English accent
+                        speech.rate = 1; // Slightly slower for clarity and smoothness
+                        speech.pitch = 1.2; // Balanced pitch (not too robotic)
+                        // what happens when the audio ends
+
+                        speech.onend = resolve; // Resolve the promise when speech ends
+                        // Get the best available voice
+                        const voices = window.speechSynthesis.getVoices();
+                        const preferredVoice = voices.find(voice => voice.name.includes("Google UK English Female")); // Soothing female voice
+
+                        if (preferredVoice) {
+                            speech.voice = preferredVoice;
+                        }
+
+                        window.speechSynthesis.speak(speech);
+
+                    });
+                });
+            };
+        // for (const key of questions) {
+        //     let a = key.options;
+        //     console.log(a);
+        //     speakInstructionsOptions(a);
+        // }
     </script>
 
 </body>
