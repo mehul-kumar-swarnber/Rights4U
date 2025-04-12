@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Child Safety Quiz</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="../assets/images/img3.jpg" type="image/x-icon">
+    <style>
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            text-align: center;
+            background-image: url("../assets/images/img9.jpg");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            position: relative;
+            overflow: hidden;
+
+        }
+
+        body::before {
+            content: "";
+            position: relative;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: -1;
+
+        }
+
+        .container {
+            width: 80%;
+            max-width: 600px;
+            margin: 50px auto;
+            background: #fff;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #ff6702;
+            margin-bottom: 20px;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        .question {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: #333;
+            animation: slideIn 1s ease-out;
+        }
+
+        .options button {
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            border: none;
+            background-color: #ffcc00;
+            font-size: 1.2rem;
+            cursor: pointer;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            animation: slideIn 1s ease-out;
+        }
+
+        .options button:hover {
+            background-color: #ff9642;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .options button:active {
+            transform: translateY(1px);
+            box-shadow: none;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideIn {
+            0% {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+
+            100% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            .container {
+                width: 90%;
+                padding: 15px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .question {
+                font-size: 1rem;
+            }
+
+            .options button {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>Child Safety Rights Quiz</h1>
+        <div class="question" id="question"></div>
+        <div class="options" id="options"></div>
+        <div id="result"></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script>
+        const questions = [
+            {
+                question: "What should you do if a stranger asks you to go with them?",
+                options: ["Go with them if they seem nice", "Say no and find a trusted adult", "Ignore them and keep quiet"],
+                correctAnswer: 1,
+                explanation: "Correct! Always say no and find a trusted adult.",
+
+            },
+            {
+                question: "What should you do if you are lost in a public place?",
+                options: ["Walk around until you find your parents", "Stay where you are and ask a trusted adult for help", "Keep walking to find your way back home"],
+                correctAnswer: 1,
+                explanation: "Correct! Stay where you are and ask a trusted adult for help.",
+
+            },
+            {
+                question: "If someone asks you for your name and address, what should you do?",
+                options: ["Tell them your name and address", "Tell them it is private and walk away", "Give them only your first name"],
+                correctAnswer: 1,
+                explanation: "Correct! Tell them it is private and walk away.",
+
+            },
+            {
+                question: "What should you do if someone you know makes you feel uncomfortable?",
+                options: ["Stay quiet and ignore your feelings", "Tell a trusted adult immediately", "Try to handle it by yourself"],
+                correctAnswer: 1,
+                explanation: "Correct! Tell a trusted adult immediately.",
+
+            },
+            {
+                question: "If a person is asking for help, but you don't know them, what should you do?",
+                options: ["Offer help immediately", "Go to a trusted adult and ask for help", "Ignore the person and walk away"],
+                correctAnswer: 1,
+                explanation: "Correct! Go to a trusted adult and ask for help.",
+
+            },
+            {
+                question: "If you're at home and someone knocks on the door, what should you do?",
+                options: ["Open the door if they look friendly", "Ask who it is through the door and only open for trusted people", "Open the door to anyone who is there"],
+                correctAnswer: 1,
+                explanation: "Correct! Ask who it is through the door and only open for trusted people.",
+
+            }
+            // Add more questions as needed
+        ];
+
+        let currentQuestionIndex = 0;
+
+        function displayQuestion() {
+            const question = questions[currentQuestionIndex];
+            document.getElementById('question').textContent = question.question;
+
+            const optionsDiv = document.getElementById('options');
+            optionsDiv.innerHTML = '';
+
+            question.options.forEach((option, index) => {
+                const button = document.createElement('button');
+                button.textContent = option;
+                button.onclick = () => checkAnswer(index);
+                optionsDiv.appendChild(button);
+            });
+        }
+
+        function checkAnswer(selectedOptionIndex) {
+            const question = questions[currentQuestionIndex];
+            const result = document.getElementById('result');
+
+            if (selectedOptionIndex === question.correctAnswer) {
+                result.textContent = question.explanation;
+                result.style.color = '#28a745';
+                document.querySelectorAll('.options button').forEach(btn => btn.disabled = true);
+
+                const audio = new Audio('CorrectVoiced.mp3')
+                audio.play();
+
+                // Proceed to next question after 3 seconds
+                setTimeout(() => {
+                    currentQuestionIndex++;
+                    if (currentQuestionIndex < questions.length) {
+                        displayQuestion();
+                        result.textContent = '';  // Reset result message
+                    } else {
+                        result.textContent = 'Congratulations! You have completed the quiz.';
+                        result.style.color = '#007bff';
+                    }
+                }, 5000);
+                // show confetti
+                confetti({
+                    particleCount: 150,
+                    spread: 70,
+                    origin: { y: 0.6 }
+                });
+
+            } else {
+                result.textContent = "Oops! That is not correct. Try again.";
+                result.style.color = '#dc3545';
+            }
+        }
+
+        displayQuestion();
+    </script>
+
+</body>
+
+</html>

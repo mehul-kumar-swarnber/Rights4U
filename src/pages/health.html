@@ -243,7 +243,8 @@
                 // Play the corresponding audio
                 const audio = new Audio(questionobj.audio); // loads the audio from the questionobj into the audio with the help of new Audio function
                 audio.play(); // Plays the audio
-
+                const audio2 = new Audio('../assets/audio/correct.mp3'); // loads the audio from the questionobj into the audio with the help of new Audio function
+                audio2.play(); // Plays the audio
 
                 // Proceed to next question after 5 seconds
                 setTimeout(() => {

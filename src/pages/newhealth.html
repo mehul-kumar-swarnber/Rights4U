@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Child Health Rights Quiz</title>
+    <link rel="shortcut icon" href="../assets/images/img3.jpg" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            text-align: center;
+            background-image: url('../assets/images/img8.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #00ffff;
+            margin-bottom: 20px;
+        }
+
+        .question {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 20px;
+            border-radius: 10px;
+            display: inline-block;
+        }
+
+        .options {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: nowrap;
+            max-width: 80%;
+        }
+
+        .options button {
+            width: 150px;
+            height: 150px;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            background: linear-gradient(45deg, #f204ff, #fbff00);
+            color: white;
+            font-weight: bold;
+        }
+
+        .options button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .options button:active {
+            transform: translateY(1px);
+            box-shadow: none;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .options {
+                flex-direction: column;
+            }
+
+            .options button {
+                width: 80%;
+                height: auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Child Health Rights Quiz</h1>
+    <div class="question" id="question"></div>
+    <div class="options" id="options"></div>
+    <div id="result"></div>
+
+    <script>
+        const questions = [
+            {
+                question: "What is the right of every child regarding health care?",
+                options: ["To receive free health care", "To choose their health care provider", "To only visit government hospitals"],
+                correctAnswer: 0,
+                explanation: "Correct! Every child has the right to receive free and accessible health care.",
+                audio: "../assets/audio/health1.mp3"
+            },
+            {
+                question: "Is it a child's right to receive vaccinations?",
+                options: ["Yes", "No", "It depends on the country"],
+                correctAnswer: 0,
+                explanation: "Correct! Every child has the right to receive vaccines for prevention of diseases.",
+                audio: "../assets/audio/health2.mp3"
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+
+        function displayQuestion() {
+            const questionobj = questions[currentQuestionIndex];
+            document.getElementById('question').textContent = questionobj.question;
+
+            const optionsDiv = document.getElementById('options');
+            optionsDiv.innerHTML = '';
+
+            questionobj.options.forEach((option, index) => {
+                const button = document.createElement('button');
+                button.textContent = option;
+                button.onclick = () => checkAnswer(index);
+                optionsDiv.appendChild(button);
+            });
+        }
+
+        function checkAnswer(selectedOptionIndex) {
+            const questionobj = questions[currentQuestionIndex];
+            const result = document.getElementById('result');
+
+            if (selectedOptionIndex === questionobj.correctAnswer) {
+                result.textContent = questionobj.explanation;
+                result.style.color = '#28a745';
+                document.querySelectorAll('.options button').forEach(btn => btn.disabled = true);
+                const audio = new Audio(questionobj.audio);
+                audio.play();
+
+                setTimeout(() => {
+                    currentQuestionIndex++;
+                    if (currentQuestionIndex < questions.length) {
+                        displayQuestion();
+                        result.textContent = '';
+                    } else {
+                        result.textContent = 'Congratulations! You have completed the quiz.';
+                        result.style.color = '#007bff';
+                    }
+                }, 6500);
+            } else {
+                result.textContent = "Oops! That is not safe. Try again.";
+                const audio2 = new Audio('../assets/audio/incorrect.mp3');
+                audio2.play();
+                result.style.color = '#dc3545';
+            }
+        }
+
+        displayQuestion();
+    </script>
+
+</body>
+
+</html>
