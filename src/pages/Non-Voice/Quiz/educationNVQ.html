@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Child Education Rights Quiz</title>
-    <link rel="shortcut icon" href="../assets/images/img3.jpg" type="image/x-icon">
+    <link rel="shortcut icon" href="/src/assets/images/img3.jpg" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
         html,
@@ -18,7 +18,7 @@
         body {
             font-family: 'Poppins', sans-serif;
             text-align: center;
-            background-image: url('../assets/images/img10.jpg');
+            background-image: url('./Assets/images/img10.jpg');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -40,7 +40,7 @@
         .container {
             width: 80%;
             max-width: 600px;
-            margin: 50px auto;
+            margin: 100px auto;
             background: #fff;
             padding: 25px;
             border-radius: 15px;
@@ -147,6 +147,7 @@
         <div id="result"></div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <script>
         // Array of questions about Education Rights
         const questions = [
@@ -220,7 +221,7 @@
                 result.style.color = '#28a745';
                 document.querySelectorAll('.options button').forEach(btn => btn.disabled = true);
 
-                const audio = new Audio('CorrectVoiced.mp3')
+                const audio = new Audio('./Assets/audio/CorrectVoiced.mp3')
                 audio.play();
 
                 // Proceed to next question after 3 seconds
@@ -234,9 +235,17 @@
                         result.style.color = '#007bff';
                     }
                 }, 5000);
+                // show confetti
+                confetti({
+                    particleCount: 150,
+                    spread: 70,
+                    origin: { y: 0.6 }
+                });
             } else {
                 result.textContent = "Oops! That is not correct. Try again.";
                 result.style.color = '#dc3545';
+                const audio = new Audio('./Assets/audio/IncorrectVoiced.mp3');
+                audio.play();
             }
         }
         // Initial call to display the first question

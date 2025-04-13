@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Child Education Rights Quiz</title>
+    <link rel="shortcut icon" href="/src/assets/images/img3.jpg" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            text-align: center;
+            background-image: url('./Assets/images/img10.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            position: relative;
+            overflow: hidden;
+        }
+
+        body::before {
+            content: "";
+            position: relative;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: -1;
+        }
+
+        .container {
+            width: 80%;
+            max-width: 600px;
+            margin: 100px auto;
+            background: #fff;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #ff6702;
+            margin-bottom: 20px;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        .question {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: #333;
+            animation: slideIn 1s ease-out;
+        }
+
+        .options button {
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            animation: slideIn 1s ease-out;
+            background: linear-gradient(45deg, #6a11cb, #2575fc);
+            color: white;
+        }
+
+        .options button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .options button:active {
+            transform: translateY(1px);
+            box-shadow: none;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        canvas {
+            border: 1px solid black;
+            display: block;
+            margin: 0 auto;
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideIn {
+            0% {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+
+            100% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            .container {
+                width: 90%;
+                padding: 15px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .question {
+                font-size: 1rem;
+            }
+
+            .options button {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>Child Education Rights Quiz</h1>
+        <div id="question">Loading question...</div>
+        <div class="question" id="question"></div>
+        <canvas id="canvas" width="800" height="500"></canvas>
+        <div class="options" id="options"></div>
+        <div id="result"></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script>
+        const canvas = document.getElementById("canvas");
+        const ctx = canvas.getContext("2d");
+
+        let isDragging = false;
+        let startX, startY, currentX, currentY;
+        let projectile = { x: 100, y: 300, vx: 0, vy: 0, radius: 10, launched: false };
+
+        const gravity = 0.5;
+
+        const targets = [
+            { x: 600, y: 100, radius: 20, hit: false, color: "red" },
+            { x: 650, y: 200, radius: 20, hit: false, color: "blue" },
+            { x: 700, y: 150, radius: 20, hit: false, color: "green" },
+            { x: 750, y: 250, radius: 20, hit: false, color: "orange" }
+        ];
+
+        canvas.addEventListener('mousedown', (e) => {
+            if (!projectile.launched) {
+                isDragging = true;
+                startX = e.offsetX;
+                startY = e.offsetY;
+            }
+        });
+        canvas.addEventListener('mousemove', (e) => {
+            if (isDragging) {
+                currentX = e.offsetX;
+                currentY = e.offsetY;
+            }
+        });
+
+        canvas.addEventListener('mouseup', () => {
+            if (isDragging) {
+                isDragging = false;
+                let dx = startX - currentX;
+                let dy = startY - currentY;
+                projectile.vx = dx * 0.2;
+                projectile.vy = dy * 0.2;
+                projectile.launched = true;
+            }
+        });
+
+        let hitRegistered = false; // new flag to avoid repeat reset
+
+        function update() {
+            if (projectile.launched) {
+                projectile.vy += gravity;
+                projectile.x += projectile.vx;
+                projectile.y += projectile.vy;
+
+                // Collision with targets
+                if (!hitRegistered) {
+                    for (let target of targets) {
+                        if (!target.hit) {
+                            const dx = projectile.x - target.x;
+                            const dy = projectile.y - target.y;
+                            const distance = Math.sqrt(dx * dx + dy * dy);
+
+                            if (distance <= projectile.radius + target.radius) {
+                                target.hit = true;
+                                hitRegistered = true;
+
+                                // Optional: show hit visually
+                                projectile.vx = 0;
+                                projectile.vy = 0;
+
+                                // Pause briefly, then reset
+                                setTimeout(() => {
+                                    resetProjectile();
+                                    hitRegistered = false;
+                                }, 800);
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                // If missed: out of bounds
+                if (
+                    projectile.x < -50 || projectile.x > canvas.width + 50 ||
+                    projectile.y > canvas.height + 50
+                ) {
+                    resetProjectile();
+                }
+            }
+
+            draw();
+            requestAnimationFrame(update);
+        }
+
+
+        function resetProjectile() {
+            projectile.x = 100;
+            projectile.y = 300;
+            projectile.vx = 0;
+            projectile.vy = 0;
+            projectile.launched = false;
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Draw slingshot base
+            ctx.fillStyle = "brown";
+            ctx.fillRect(90, 290, 20, 50);
+
+            // Draw projectile
+            ctx.beginPath();
+            ctx.arc(projectile.x, projectile.y, projectile.radius, 0, Math.PI * 2);
+            ctx.fillStyle = "gray";
+            ctx.fill();
+
+            // Draw drag line
+            if (isDragging) {
+                ctx.beginPath();
+                ctx.moveTo(startX, startY);
+                ctx.lineTo(currentX, currentY);
+                ctx.strokeStyle = "black";
+                ctx.stroke();
+            }
+
+            // Draw targets
+            targets.forEach(target => {
+                if (!target.hit) {
+                    ctx.beginPath();
+                    ctx.arc(target.x, target.y, target.radius, 0, Math.PI * 2);
+                    // ctx.fillStyle = "red";
+                    ctx.fillStyle = target.color;
+
+                    ctx.fill();
+                }
+            });
+        }
+
+        draw();
+        update();
+
+
+
+
+        // Array of questions about Education Rights
+        const questions = [
+            {
+                question: "What is the right of every child regarding education?",
+                options: ["To receive free and compulsory education", "To choose which subjects to study", "To attend private schools only"],
+                correctAnswer: 0,
+                explanation: "Correct! Every child has the right to free and compulsory education.",
+
+            },
+            {
+                question: "At what age should a child start attending school?",
+                options: ["At age 5", "At age 6", "At age 7"],
+                correctAnswer: 1,
+                explanation: "Correct! Children should start attending school at age 6.",
+
+            },
+            {
+                question: "Is it illegal to keep a child out of school?",
+                options: ["Yes", "No", "It depends on the situation"],
+                correctAnswer: 0,
+                explanation: "Correct! It is illegal to deny a child their right to education.",
+
+            },
+            {
+                question: "What should you do if a child cannot afford education materials?",
+                options: ["Ignore the situation", "Request financial assistance or subsidies", "Wait until the child can afford it themselves"],
+                correctAnswer: 1,
+                explanation: "Correct! There are programs and subsidies available to help children who cannot afford education materials.",
+
+            },
+            {
+                question: "Can a child be punished for not attending school?",
+                options: ["Yes, they can be punished", "No, there are no punishments", "It depends on the country"],
+                correctAnswer: 2,
+                explanation: "Correct! The laws vary, but children should never face punishment due to the lack of education resources.",
+
+            },
+            {
+                question: "Do children have the right to access education in different languages?",
+                options: ["No, only in the country's official language", "Yes, children have the right to access education in their mother tongue", "Only in major languages like English or French"],
+                correctAnswer: 1,
+                explanation: "Correct! Children should have access to education in a language they understand best.",
+
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+
+        function displayQuestion() {
+            const question = questions[currentQuestionIndex];
+            document.getElementById('question').textContent = question.question;
+
+            
+            const optionsDiv = document.getElementById('options');
+            optionsDiv.innerHTML = '';
+
+            question.options.forEach((option, index) => {
+                const button = document.createElement('button');
+                button.textContent = option;
+                button.onclick = () => checkAnswer(index);
+                optionsDiv.appendChild(button);
+            });
+        }
+
+        function checkAnswer(selectedOptionIndex) {
+            const question = questions[currentQuestionIndex];
+            const result = document.getElementById('result');
+
+            if (selectedOptionIndex === question.correctAnswer) {
+                result.textContent = question.explanation;
+                result.style.color = '#28a745';
+                document.querySelectorAll('.options button').forEach(btn => btn.disabled = true);
+
+                const audio = new Audio('./Assets/audio/CorrectVoiced.mp3')
+                audio.play();
+
+                // Proceed to next question after 3 seconds
+                setTimeout(() => {
+                    currentQuestionIndex++;
+                    if (currentQuestionIndex < questions.length) {
+                        displayQuestion();
+                        result.textContent = '';  // Reset result message
+                    } else {
+                        result.textContent = 'Congratulations! You have completed the quiz.';
+                        result.style.color = '#007bff';
+                    }
+                }, 5000);
+                // show confetti
+                confetti({
+                    particleCount: 150,
+                    spread: 70,
+                    origin: { y: 0.6 }
+                });
+            } else {
+                result.textContent = "Oops! That is not correct. Try again.";
+                result.style.color = '#dc3545';
+                const audio = new Audio('./Assets/audio/IncorrectVoiced.mp3');
+                audio.play();
+            }
+        }
+        // Initial call to display the first question
+        displayQuestion();
+    </script>
+
+</body>
+
+</html>
